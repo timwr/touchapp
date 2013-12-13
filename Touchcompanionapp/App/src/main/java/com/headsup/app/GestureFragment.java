@@ -1,14 +1,15 @@
 package com.headsup.app;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothSocket;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.GestureDetector;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -16,6 +17,7 @@ import android.widget.Toast;
 public class GestureFragment extends Fragment implements GestureDetector.OnGestureListener, View.OnTouchListener {
 
     private GestureDetector gestureDetector;
+    private BluetoothSocket bluetoothSocket;
     private float downX = 0;
     private float downY;
 
@@ -30,10 +32,29 @@ public class GestureFragment extends Fragment implements GestureDetector.OnGestu
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         rootView.setOnTouchListener(this);
         return rootView;
+    }
+
+    public void sendKey(int keyCode) {
+        sendBluetoothString(String.valueOf(keyCode));
+    }
+
+    public void sendBluetoothString(String keyString) {
+        try {
+            if (bluetoothSocket == null) {
+                bluetoothSocket = BluetoothConnection.connectBluetooth(getActivity());
+            }
+            if (bluetoothSocket == null) {
+                return;
+            }
+            byte[] keyBytes = keyString.getBytes();
+            bluetoothSocket.getOutputStream().write(keyBytes);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -46,19 +67,15 @@ public class GestureFragment extends Fragment implements GestureDetector.OnGestu
             float deltaY = downY - event.getY();
             if (Math.abs(deltaY) < Math.abs(deltaX)) { // horizontal
                 if (deltaX > 0) {
-                    //left
-                    Toast.makeText(getActivity(), "left", Toast.LENGTH_SHORT).show();
+                    sendKey(KeyEvent.KEYCODE_DPAD_LEFT);
                 } else {
-                    Toast.makeText(getActivity(), "right", Toast.LENGTH_SHORT).show();
-
+                    sendKey(KeyEvent.KEYCODE_DPAD_RIGHT);
                 }
             } else {
                 if (deltaY > 0) {
-                    Toast.makeText(getActivity(), "up", Toast.LENGTH_SHORT).show();
-
+                    sendKey(KeyEvent.KEYCODE_DPAD_UP);
                 } else {
-                    Toast.makeText(getActivity(), "down", Toast.LENGTH_SHORT).show();
-
+                    sendKey(KeyEvent.KEYCODE_DPAD_DOWN);
                 }
             }
         }

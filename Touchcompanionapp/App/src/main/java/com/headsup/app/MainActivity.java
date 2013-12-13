@@ -7,6 +7,8 @@ import android.view.MenuItem;
 
 public class MainActivity extends ActionBarActivity {
 
+    private static final String BLUETOOTH_FRAGMENT = "bluetooth";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,6 +19,9 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.container, new GestureFragment())
                     .commit();
         }
+
+
+//        new BluetoothFragment().show(getSupportFragmentManager(), BLUETOOTH_FRAGMENT);
     }
 
 
