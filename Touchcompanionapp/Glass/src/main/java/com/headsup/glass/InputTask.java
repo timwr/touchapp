@@ -3,10 +3,8 @@ package com.headsup.glass;
 import android.os.AsyncTask;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
-import java.io.OutputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 
@@ -44,25 +42,32 @@ class InputTask extends AsyncTask<String, Void, Void> {
                     .redirectErrorStream(true)
                     .start();
 
-                try {
-                    InputStream in = mProcess.getInputStream();
-                    OutputStream out = mProcess.getOutputStream();
-                    byte[] buffer = new byte[1024];
-                    int count;
 
-                    while ((count = in.read(buffer)) != -1) {
-                        mPOut.write(buffer, 0, count);
-                        publishProgress();
-                    }
-                    out.close();
-                    in.close();
-                    mPOut.close();
-                    mPIn.close();
+                try {
+                    mProcess.waitFor();
+//                    InputStream in = mProcess.getInputStream();
+//                    OutputStream out = mProcess.getOutputStream();
+//                    byte[] buffer = new byte[1024];
+//                    int count;
+//
+//                    while ((count = in.read(buffer)) != -1) {
+//                        mPOut.write(buffer, 0, count);
+//                        publishProgress();
+//                    }
+//                    out.close();
+//                    in.close();
+//                    mPOut.close();
+//                    mPIn.close();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 } finally {
-                    mProcess.destroy();
+                    if (mProcess != null) {
+                        mProcess.destroy();
+                    }
                     mProcess = null;
                 }
             } catch (IOException e) {
+                e.printStackTrace();
             }
             return null;
         }

@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.PowerManager;
 import android.util.Log;
 
 import java.io.IOException;
@@ -37,9 +38,13 @@ public class BluetoothConnection {
                 new InputTask().execute(key);
             } else {
                 try {
+                    PowerManager.WakeLock screenLock = ((PowerManager)context.getSystemService(Context.POWER_SERVICE)).newWakeLock(
+                            PowerManager.FULL_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE | PowerManager.ACQUIRE_CAUSES_WAKEUP, "TAG");
+                    screenLock.acquire();
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(keyString));
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.getApplicationContext().startActivity(intent);
+                    screenLock.release();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
