@@ -87,10 +87,11 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
-            BluetoothConnection.getInstance().sendKey(this, keyCode);
-            return true;
-        }
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+                BluetoothConnection.getInstance().sendBluetoothString(this, "home");
+            } else {
+                BluetoothConnection.getInstance().sendKey(this, keyCode);
+            }
             return true;
         }
         return super.onKeyDown(keyCode, event);
