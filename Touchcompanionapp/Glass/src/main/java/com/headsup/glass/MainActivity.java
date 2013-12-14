@@ -26,13 +26,17 @@ public class MainActivity extends Activity {
 
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        Intent intent = new Intent(this, Input.class);
-        startService(intent);
 
 //        new InputTask().execute("29");
 //
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Intent intent = new Intent(this, Input.class);
+        startService(intent);
+    }
 
     public void startCamera() {
 //        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

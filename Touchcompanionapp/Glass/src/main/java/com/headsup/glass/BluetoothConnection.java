@@ -28,7 +28,7 @@ public class BluetoothConnection {
         InputStream inputStream = connectSocket.getInputStream();
 
         while (true) {
-            byte[] buffer = new byte[10];
+            byte[] buffer = new byte[1024];
             int bytes = inputStream.read(buffer);
             String keyString = new String(buffer).substring(0, bytes);
             Log.e("OUT", "Received: " + bytes + "=" + keyString);

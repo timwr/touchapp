@@ -1,5 +1,6 @@
 package com.headsup.app;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -30,6 +32,10 @@ public class MainActivity extends ActionBarActivity {
         if (savedInstanceState == null && getIntent() != null) {
             handleIntent(getIntent());
         }
+
+
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput (InputMethodManager.SHOW_FORCED, 0);
     }
 
     @Override
@@ -69,7 +75,7 @@ public class MainActivity extends ActionBarActivity {
 //            new Throwable().printStackTrace();
 //            return;
 //        }
-        Log.v("", "" + dataString);
+        Log.e("", "" + dataString);
         if (dataString != null) {
             new Throwable().printStackTrace();
             BluetoothConnection.getInstance().sendBluetoothString(this, dataString);
@@ -80,6 +86,10 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+            BluetoothConnection.getInstance().sendKey(this, keyCode);
+            return true;
+        }
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             return true;
         }

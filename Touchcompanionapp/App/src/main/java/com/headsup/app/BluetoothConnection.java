@@ -31,7 +31,7 @@ public class BluetoothConnection {
     }
 
     public void sendBluetoothString(Context context, String keyString) {
-        Log.v("LOL", "sending " + keyString);
+        Log.e("LOL", "sending " + keyString);
         try {
             Log.v("LOL", "socket " + bluetoothSocket);
             if (bluetoothSocket == null) {
@@ -43,7 +43,12 @@ public class BluetoothConnection {
             }
             Log.v("LOL", "socket2 " + bluetoothSocket);
             byte[] keyBytes = keyString.getBytes();
-            bluetoothSocket.getOutputStream().write(keyBytes);
+            try {
+                bluetoothSocket.getOutputStream().write(keyBytes);
+            } catch (IOException e) {
+                e.printStackTrace();
+                bluetoothSocket = null;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
