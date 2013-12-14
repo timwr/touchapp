@@ -3,6 +3,9 @@ package com.headsup.glass;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 
 import java.io.IOException;
@@ -18,7 +21,7 @@ public class BluetoothConnection {
     private static final String MY_STRING = "touch";
     private static final String TAG = BluetoothConnection.class.getSimpleName();
 
-    public static void listenBluetooth() throws IOException {
+    public static void listenBluetooth(Context context) throws IOException {
         final BluetoothAdapter bluetooth = BluetoothAdapter.getDefaultAdapter();
         BluetoothServerSocket bluetoothServerSocket = bluetooth.listenUsingRfcommWithServiceRecord(MY_STRING, MY_UUID);
         BluetoothSocket connectSocket = bluetoothServerSocket.accept();
@@ -29,7 +32,18 @@ public class BluetoothConnection {
             int bytes = inputStream.read(buffer);
             String keyString = new String(buffer).substring(0, bytes);
             Log.e("OUT", "Received: " + bytes + "=" + keyString);
-            new InputTask().execute(keyString);
+            if (keyString != null && keyString.startsWith("key")) {
+                String key = keyString.substring(3);
+                new InputTask().execute(key);
+            } else {
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(keyString));
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.getApplicationContext().startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

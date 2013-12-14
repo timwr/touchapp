@@ -1,7 +1,10 @@
 package com.headsup.app;
 
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +26,55 @@ public class MainActivity extends ActionBarActivity {
 
 
 //        new BluetoothFragment().show(getSupportFragmentManager(), BLUETOOTH_FRAGMENT);
+
+        if (savedInstanceState == null && getIntent() != null) {
+            handleIntent(getIntent());
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        handleIntent(getIntent());
+        super.onNewIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+        if (intent == null) {
+            return;
+        }
+        new Throwable().printStackTrace();
+        Log.v("", "" + intent);
+        Log.v("", "" + intent.getData());
+        Log.v("", "" + intent.getExtras());
+        Uri uri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+        String dataString = null;
+        if (uri != null) {
+            dataString = uri.toString();
+        }
+        uri = intent.getData();
+        if (uri != null) {
+            if (dataString == null) {
+                dataString = uri.toString();
+            }
+        }
+        if (dataString == null) {
+            dataString = intent.getDataString();
+        }
+
+        if (dataString == null) {
+            dataString = intent.getStringExtra(Intent.EXTRA_TEXT);
+        }
+//        Log.v("", "" + uri);
+//        if (uri == null) {
+//            new Throwable().printStackTrace();
+//            return;
+//        }
+        Log.v("", "" + dataString);
+        if (dataString != null) {
+            new Throwable().printStackTrace();
+            BluetoothConnection.getInstance().sendBluetoothString(this, dataString);
+        }
+
     }
 
 

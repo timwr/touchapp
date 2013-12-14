@@ -14,7 +14,7 @@ public class Input extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         try {
-            BluetoothConnection.listenBluetooth();
+            BluetoothConnection.listenBluetooth(this);
         } catch (IOException e) {
             e.printStackTrace();
         }

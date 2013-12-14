@@ -1,10 +1,8 @@
 package com.headsup.app;
 
 import android.app.Activity;
-import android.bluetooth.BluetoothSocket;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -15,10 +13,9 @@ import android.view.ViewGroup;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class GestureFragment extends Fragment implements GestureDetector.OnGestureListener, View.OnTouchListener, View.OnKeyListener {
+public class GestureFragment extends Fragment implements GestureDetector.OnGestureListener, View.OnTouchListener {
 
     private GestureDetector gestureDetector;
-    private BluetoothSocket bluetoothSocket;
     private float downX = 0;
     private float downY;
 
@@ -36,29 +33,10 @@ public class GestureFragment extends Fragment implements GestureDetector.OnGestu
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         rootView.setOnTouchListener(this);
-        rootView.setOnKeyListener(this);
         return rootView;
     }
 
-    public void sendKey(int keyCode) {
-        sendBluetoothString(String.valueOf(keyCode));
-    }
 
-    public void sendBluetoothString(String keyString) {
-        Log.v("LOL", "sending " + keyString);
-        try {
-            if (bluetoothSocket == null) {
-                bluetoothSocket = BluetoothConnection.connectBluetooth(getActivity());
-            }
-            if (bluetoothSocket == null) {
-                return;
-            }
-            byte[] keyBytes = keyString.getBytes();
-            bluetoothSocket.getOutputStream().write(keyBytes);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
@@ -68,17 +46,18 @@ public class GestureFragment extends Fragment implements GestureDetector.OnGestu
         } else if (downX != 0 && event.getAction() == MotionEvent.ACTION_UP) {
             float deltaX = downX - event.getX();
             float deltaY = downY - event.getY();
+            BluetoothConnection bluetoothConnection = BluetoothConnection.getInstance();
             if (Math.abs(deltaY) < Math.abs(deltaX)) { // horizontal
                 if (deltaX > 0) {
-                    sendKey(KeyEvent.KEYCODE_DPAD_LEFT);
+                    bluetoothConnection.sendKey(getActivity(), KeyEvent.KEYCODE_DPAD_LEFT);
                 } else {
-                    sendKey(KeyEvent.KEYCODE_DPAD_RIGHT);
+                    bluetoothConnection.sendKey(getActivity(), KeyEvent.KEYCODE_DPAD_RIGHT);
                 }
             } else {
                 if (deltaY > 0) {
-                    sendKey(KeyEvent.KEYCODE_DPAD_UP);
+                    bluetoothConnection.sendKey(getActivity(), KeyEvent.KEYCODE_DPAD_UP);
                 } else {
-                    sendKey(KeyEvent.KEYCODE_DPAD_DOWN);
+                    bluetoothConnection.sendKey(getActivity(), KeyEvent.KEYCODE_DPAD_DOWN);
                 }
             }
         }
@@ -112,17 +91,6 @@ public class GestureFragment extends Fragment implements GestureDetector.OnGestu
 
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-        return false;
-    }
-
-    @Override
-    public boolean onKey(View v, int keyCode, KeyEvent event) {
-        if (event.getAction() == KeyEvent.ACTION_UP) {
-            sendKey(keyCode);
-        }
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            return true;
-        }
         return false;
     }
 }
