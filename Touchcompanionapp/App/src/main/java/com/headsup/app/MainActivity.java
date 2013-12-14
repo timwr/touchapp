@@ -2,6 +2,7 @@ package com.headsup.app;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -24,6 +25,14 @@ public class MainActivity extends ActionBarActivity {
 //        new BluetoothFragment().show(getSupportFragmentManager(), BLUETOOTH_FRAGMENT);
     }
 
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

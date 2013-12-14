@@ -13,7 +13,6 @@ public class Input extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-
         try {
             BluetoothConnection.listenBluetooth();
         } catch (IOException e) {

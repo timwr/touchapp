@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.bluetooth.BluetoothSocket;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -14,7 +15,7 @@ import android.view.ViewGroup;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class GestureFragment extends Fragment implements GestureDetector.OnGestureListener, View.OnTouchListener {
+public class GestureFragment extends Fragment implements GestureDetector.OnGestureListener, View.OnTouchListener, View.OnKeyListener {
 
     private GestureDetector gestureDetector;
     private BluetoothSocket bluetoothSocket;
@@ -35,6 +36,7 @@ public class GestureFragment extends Fragment implements GestureDetector.OnGestu
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         rootView.setOnTouchListener(this);
+        rootView.setOnKeyListener(this);
         return rootView;
     }
 
@@ -43,6 +45,7 @@ public class GestureFragment extends Fragment implements GestureDetector.OnGestu
     }
 
     public void sendBluetoothString(String keyString) {
+        Log.v("LOL", "sending " + keyString);
         try {
             if (bluetoothSocket == null) {
                 bluetoothSocket = BluetoothConnection.connectBluetooth(getActivity());
@@ -112,4 +115,14 @@ public class GestureFragment extends Fragment implements GestureDetector.OnGestu
         return false;
     }
 
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_UP) {
+            sendKey(keyCode);
+        }
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            return true;
+        }
+        return false;
+    }
 }
