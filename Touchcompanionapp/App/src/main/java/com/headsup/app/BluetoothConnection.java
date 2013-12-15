@@ -8,6 +8,7 @@ import android.content.Context;
 import android.util.Log;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Set;
 import java.util.UUID;
 
@@ -25,6 +26,7 @@ public class BluetoothConnection {
     }
 
     private BluetoothSocket bluetoothSocket;
+    private OutputStream outputStream;
 
     public void sendKey(Context context, int keyCode) {
         sendBluetoothString(context, "key" + String.valueOf(keyCode));
@@ -36,6 +38,7 @@ public class BluetoothConnection {
             Log.v("LOL", "socket " + bluetoothSocket);
             if (bluetoothSocket == null) {
                 bluetoothSocket = connectBluetooth(context);
+                outputStream = null;
             }
             Log.v("LOL", "socket1 " + bluetoothSocket);
             if (bluetoothSocket == null) {
@@ -44,10 +47,14 @@ public class BluetoothConnection {
             Log.v("LOL", "socket2 " + bluetoothSocket);
             byte[] keyBytes = keyString.getBytes();
             try {
-                bluetoothSocket.getOutputStream().write(keyBytes);
+                if (outputStream == null) {
+                    outputStream = bluetoothSocket.getOutputStream();
+                }
+                outputStream.write(keyBytes);
             } catch (IOException e) {
                 e.printStackTrace();
                 bluetoothSocket = null;
+                outputStream = null;
             }
         } catch (Exception e) {
             e.printStackTrace();

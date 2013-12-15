@@ -40,8 +40,8 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
-        handleIntent(getIntent());
         super.onNewIntent(intent);
+        handleIntent(getIntent());
     }
 
     private void handleIntent(Intent intent) {
