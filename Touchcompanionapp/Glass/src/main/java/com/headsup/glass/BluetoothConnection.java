@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.PowerManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import java.io.IOException;
@@ -35,7 +36,9 @@ public class BluetoothConnection {
             Log.e("OUT", "Received: " + bytes + "=" + keyString);
             if (keyString != null && keyString.startsWith("key")) {
                 String key = keyString.substring(3);
-                new InputTask().execute(key);
+                Intent intent = new Intent("key-event");
+                intent.putExtra("message", key);
+                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
             } else if (keyString != null) {
                 try {
                     PowerManager.WakeLock screenLock = ((PowerManager)context.getSystemService(Context.POWER_SERVICE)).newWakeLock(

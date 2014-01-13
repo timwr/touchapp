@@ -27,14 +27,13 @@ public class MainActivity extends Activity {
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-//        new InputTask().execute("29");
 //
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Intent intent = new Intent(this, Input.class);
+        Intent intent = new Intent(this, BluetoothListenService.class);
         startService(intent);
     }
 

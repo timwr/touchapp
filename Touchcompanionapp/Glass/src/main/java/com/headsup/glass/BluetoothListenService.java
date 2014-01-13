@@ -5,10 +5,10 @@ import android.content.Intent;
 
 import java.io.IOException;
 
-public class Input extends IntentService {
+public class BluetoothListenService extends IntentService {
 
-    public Input() {
-        super(Input.class.getSimpleName());
+    public BluetoothListenService() {
+        super(BluetoothListenService.class.getSimpleName());
     }
 
     @Override

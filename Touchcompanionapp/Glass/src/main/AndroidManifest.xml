@@ -35,15 +35,24 @@
             </intent-filter>
         </activity>
 
-
-
-        <service android:name="Input">
+        <service android:name=".BluetoothListenService">
             <intent-filter>
                 <action android:name="com.google.android.glass.action.VOICE_TRIGGER" />
             </intent-filter>
             <meta-data
                 android:name="com.google.android.glass.VoiceTrigger"
                 android:resource="@xml/method" />
+        </service>
+
+        <service android:name=".GlassInputService"
+            android:label="@string/app_name"
+            android:exported="true"
+            android:permission="android.permission.BIND_INPUT_METHOD">
+            <intent-filter>
+                <action android:name="android.view.InputMethod" />
+            </intent-filter>
+            <meta-data android:name="android.view.im"
+                android:resource="@xml/inputmethod" />
         </service>
     </application>
 
