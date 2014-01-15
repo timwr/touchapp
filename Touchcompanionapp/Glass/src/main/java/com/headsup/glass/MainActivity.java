@@ -3,7 +3,8 @@ package com.headsup.glass;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.WindowManager;
+import android.provider.Settings;
+import android.util.Log;
 
 public class MainActivity extends Activity {
 
@@ -12,7 +13,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        String currentKeyboard =  Settings.Secure.getString(getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD);
+        Log.i("Keyboard", currentKeyboard);
     }
 
     @Override

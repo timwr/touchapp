@@ -54,10 +54,10 @@ public class GestureFragment extends Fragment implements GestureDetector.OnGestu
                     bluetoothConnection.sendKey(getActivity(), KeyEvent.KEYCODE_DPAD_RIGHT);
                 }
             } else {
-                if (deltaY > 0) {
-                    bluetoothConnection.sendKey(getActivity(), KeyEvent.KEYCODE_DPAD_UP);
-                } else {
+                if (deltaY >= 0) {
                     bluetoothConnection.sendKey(getActivity(), KeyEvent.KEYCODE_ENTER);
+                } else {
+                    bluetoothConnection.sendKey(getActivity(), KeyEvent.KEYCODE_BACK);
                 }
             }
         }

@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.PowerManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -55,6 +56,9 @@ public class BluetoothConnection {
                     }
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.getApplicationContext().startActivity(intent);
+
+                    InputMethodManager imm =  (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
                     screenLock.release();
                 } catch (Exception e) {
                     e.printStackTrace();

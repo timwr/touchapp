@@ -29,12 +29,13 @@ public class BluetoothConnection {
     private OutputStream outputStream;
 
     public void sendKey(Context context, int keyCode) {
-        sendBluetoothString(context, "key" + String.valueOf(keyCode) + "\n");
+        sendBluetoothString(context, "key" + String.valueOf(keyCode));
     }
 
     public void sendBluetoothString(Context context, String keyString) {
         Log.e("LOL", "sending " + keyString);
         try {
+            keyString = keyString + "\n";
             Log.v("LOL", "socket " + bluetoothSocket);
             if (bluetoothSocket == null) {
                 bluetoothSocket = connectBluetooth(context);
