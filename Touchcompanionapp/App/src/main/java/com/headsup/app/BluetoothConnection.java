@@ -29,7 +29,7 @@ public class BluetoothConnection {
     private OutputStream outputStream;
 
     public void sendKey(Context context, int keyCode) {
-        sendBluetoothString(context, "key" + String.valueOf(keyCode));
+        sendBluetoothString(context, "key" + String.valueOf(keyCode) + "\n");
     }
 
     public void sendBluetoothString(Context context, String keyString) {

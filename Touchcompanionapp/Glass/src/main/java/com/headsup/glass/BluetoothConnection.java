@@ -10,8 +10,10 @@ import android.os.PowerManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.UUID;
 
 /**
@@ -28,12 +30,11 @@ public class BluetoothConnection {
         BluetoothServerSocket bluetoothServerSocket = bluetooth.listenUsingRfcommWithServiceRecord(MY_STRING, MY_UUID);
         BluetoothSocket connectSocket = bluetoothServerSocket.accept();
         InputStream inputStream = connectSocket.getInputStream();
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
         while (true) {
-            byte[] buffer = new byte[1024];
-            int bytes = inputStream.read(buffer);
-            String keyString = new String(buffer).substring(0, bytes);
-            Log.e("OUT", "Received: " + bytes + "=" + keyString);
+            String keyString = bufferedReader.readLine();
+            Log.e("OUT", "Received: " + keyString.length() + "=" + keyString);
             if (keyString != null && keyString.startsWith("key")) {
                 String key = keyString.substring(3);
                 Intent intent = new Intent("key-event");

@@ -31,8 +31,12 @@ public class GlassInputService extends InputMethodService {
         public void onReceive(Context context, Intent intent) {
             String message = intent.getStringExtra("message");
             Log.d("receiver", "key: " + message);
-            int keyCode = Integer.valueOf(message);
-            keyDownUp(keyCode);
+            try {
+                int keyCode = Integer.valueOf(message);
+                keyDownUp(keyCode);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
         }
     };
 
