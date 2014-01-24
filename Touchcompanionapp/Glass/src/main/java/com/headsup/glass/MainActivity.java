@@ -1,10 +1,12 @@
 package com.headsup.glass;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 
 public class MainActivity extends Activity {
 
@@ -21,9 +23,13 @@ public class MainActivity extends Activity {
     protected void onResume() {
         super.onResume();
 
-
         Intent intent = new Intent(this, BluetoothListenService.class);
         startService(intent);
+
+        InputMethodManager imm =  (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+
     }
 
 }

@@ -34,7 +34,14 @@ public class BluetoothConnection {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
         while (true) {
-            String keyString = bufferedReader.readLine();
+
+            String keyString = null;
+            try {
+                keyString = bufferedReader.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+                break;
+            }
             Log.e("OUT", "Received: " + keyString.length() + "=" + keyString);
             if (keyString != null && keyString.startsWith("key")) {
                 String key = keyString.substring(3);
@@ -65,5 +72,8 @@ public class BluetoothConnection {
                 }
             }
         }
+
+        connectSocket.close();
+        bluetoothServerSocket.close();
     }
 }

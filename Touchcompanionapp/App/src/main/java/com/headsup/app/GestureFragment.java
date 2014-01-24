@@ -15,6 +15,7 @@ import android.view.ViewGroup;
  */
 public class GestureFragment extends Fragment implements GestureDetector.OnGestureListener, View.OnTouchListener {
 
+    private View view;
     private GestureDetector gestureDetector;
     private float downX = 0;
     private float downY;
@@ -33,6 +34,7 @@ public class GestureFragment extends Fragment implements GestureDetector.OnGestu
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         rootView.setOnTouchListener(this);
+        view = rootView;
         return rootView;
     }
 
@@ -43,15 +45,21 @@ public class GestureFragment extends Fragment implements GestureDetector.OnGestu
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             downX = event.getX();
             downY = event.getY();
+            if (view != null) {
+                view.setBackgroundColor(0xFF7491A3);
+            }
         } else if (downX != 0 && event.getAction() == MotionEvent.ACTION_UP) {
             float deltaX = downX - event.getX();
             float deltaY = downY - event.getY();
+            if (view != null) {
+                view.setBackgroundColor(0xFF000000);
+            }
             BluetoothConnection bluetoothConnection = BluetoothConnection.getInstance();
             if (Math.abs(deltaY) < Math.abs(deltaX)) { // horizontal
                 if (deltaX > 0) {
-                    bluetoothConnection.sendKey(getActivity(), KeyEvent.KEYCODE_DPAD_LEFT);
-                } else {
                     bluetoothConnection.sendKey(getActivity(), KeyEvent.KEYCODE_DPAD_RIGHT);
+                } else {
+                    bluetoothConnection.sendKey(getActivity(), KeyEvent.KEYCODE_DPAD_LEFT);
                 }
             } else {
                 if (deltaY >= 0) {
