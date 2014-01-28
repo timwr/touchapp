@@ -2,11 +2,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.headsup.app.GestureFragment">
+
+    <android.gesture.GestureOverlayView
+        android:id="@+id/view_gesture"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:eventsInterceptionEnabled="false"
+        android:fadeEnabled="true"
+        android:fadeOffset="1000"
+        android:gestureColor="@android:color/white"
+        android:gestureStrokeType="single"
+        android:gestureStrokeWidth="50"
+        android:orientation="vertical">
+
+    </android.gesture.GestureOverlayView>
 
 </RelativeLayout>

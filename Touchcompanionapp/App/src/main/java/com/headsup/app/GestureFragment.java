@@ -1,6 +1,8 @@
 package com.headsup.app;
 
 import android.app.Activity;
+import android.gesture.Gesture;
+import android.gesture.GestureOverlayView;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.GestureDetector;
@@ -9,13 +11,17 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class GestureFragment extends Fragment implements GestureDetector.OnGestureListener, View.OnTouchListener {
+public class GestureFragment extends Fragment implements GestureDetector.OnGestureListener, View.OnTouchListener, GestureOverlayView.OnGesturePerformedListener {
 
     private View view;
+    private LinearLayout layoutGesture;
+    private android.gesture.GestureOverlayView viewGesture;
+
     private GestureDetector gestureDetector;
     private float downX = 0;
     private float downY;
@@ -33,27 +39,23 @@ public class GestureFragment extends Fragment implements GestureDetector.OnGestu
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        rootView.setOnTouchListener(this);
         view = rootView;
+        viewGesture = (android.gesture.GestureOverlayView) view.findViewById(R.id.view_gesture);
+        viewGesture.setOnTouchListener(this);
+
+//        layoutGesture = (LinearLayout) rootView.findViewById(R.id.layout_gesture);
+//        layoutGesture.addView(gestureOverlayView);
         return rootView;
     }
-
-
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             downX = event.getX();
             downY = event.getY();
-            if (view != null) {
-                view.setBackgroundColor(0xFF7491A3);
-            }
         } else if (downX != 0 && event.getAction() == MotionEvent.ACTION_UP) {
             float deltaX = downX - event.getX();
             float deltaY = downY - event.getY();
-            if (view != null) {
-                view.setBackgroundColor(0xFF000000);
-            }
             BluetoothConnection bluetoothConnection = BluetoothConnection.getInstance();
             if (Math.abs(deltaY) < Math.abs(deltaX)) { // horizontal
                 if (deltaX > 0) {
@@ -84,7 +86,9 @@ public class GestureFragment extends Fragment implements GestureDetector.OnGestu
 
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
-        return false;
+        BluetoothConnection bluetoothConnection = BluetoothConnection.getInstance();
+        bluetoothConnection.sendKey(getActivity(), KeyEvent.KEYCODE_ENTER);
+        return true;
     }
 
     @Override
@@ -100,5 +104,10 @@ public class GestureFragment extends Fragment implements GestureDetector.OnGestu
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
         return false;
+    }
+
+    @Override
+    public void onGesturePerformed(GestureOverlayView overlay, Gesture gesture) {
+
     }
 }
