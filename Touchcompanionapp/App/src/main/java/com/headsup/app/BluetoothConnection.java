@@ -2,9 +2,10 @@ package com.headsup.app;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.io.IOException;
@@ -63,14 +64,16 @@ public class BluetoothConnection {
     }
 
     public BluetoothSocket connectBluetooth(Context context) {
-        BluetoothManager bluetoothManager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
-//        final BluetoothAdapter bluetooth = bluetoothManager.getAdapter();
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String mac = sharedPrefs.getString("bt_mac", null);
+        if (mac == null) {
+            return null;
+        }
         final BluetoothAdapter bluetooth = BluetoothAdapter.getDefaultAdapter();
         Set<BluetoothDevice> pairedDevices = bluetooth.getBondedDevices();
-        // TODO fix
         for (final BluetoothDevice bthDevice : pairedDevices) {
-            Log.v("BLUETOOTH", bthDevice.getName() + " = " + bthDevice.getAddress() + " " + bthDevice.getType() + " " + bthDevice.toString());
-            if (bthDevice.getAddress().equals("F8:8F:CA:24:55:1C")) {
+//            Log.v("BLUETOOTH", bthDevice.getName() + " = " + bthDevice.getAddress() + " " + bthDevice.getType() + " " + bthDevice.toString());
+            if (mac.equals(bthDevice.getAddress())) {
                 final String addressPairedDevice = bthDevice.getAddress();
                 try {
                     BluetoothSocket socket = bthDevice.createRfcommSocketToServiceRecord(MY_UUID);
