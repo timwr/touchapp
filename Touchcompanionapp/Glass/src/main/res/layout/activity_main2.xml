@@ -1,15 +1,35 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@android:color/black"
     tools:context="com.headsup.glass.MainActivity"
-    tools:ignore="MergeRootFrame"  >
+    tools:ignore="MergeRootFrame">
 
-    <TextView
-        android:text="Remote started, launch the phone app to begin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:id="@+id/layout_connected"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@drawable/bg_connect"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</LinearLayout>
+        <TextView
+            android:text="Heads Up Remote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:text="Active"
+            android:textColor="#99cc33"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</FrameLayout>
