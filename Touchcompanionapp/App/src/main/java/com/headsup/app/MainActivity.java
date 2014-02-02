@@ -23,6 +23,8 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.headsup.lib.BluetoothConstants;
+
 import java.util.Set;
 
 public class MainActivity extends ActionBarActivity {
@@ -208,7 +210,7 @@ public class MainActivity extends ActionBarActivity {
                 }
 
             } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-                BluetoothConnection.getInstance().sendBluetoothString(this, "home");
+                BluetoothConnection.getInstance().sendBluetoothString(this, BluetoothConstants.CONSTANT_HOME);
             } else {
                 BluetoothConnection.getInstance().sendKey(this, keyCode);
             }
@@ -218,7 +220,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void launchCamera(View view) {
-        BluetoothConnection.getInstance().sendBluetoothString(this, "camera");
+        BluetoothConnection.getInstance().sendBluetoothString(this, BluetoothConstants.CONSTANT_CAMERA);
     }
 
     public void launchBluetooth(View view) {

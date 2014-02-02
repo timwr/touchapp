@@ -10,22 +10,21 @@ import android.os.PowerManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.headsup.lib.BluetoothConstants;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.UUID;
 
 /**
  * Created by tim on 12/12/13.
  */
-public class BluetoothConnection {
+public class BluetoothConnection implements BluetoothConstants {
 
     private static final String ACTION_TAKE_PICTURE = "com.google.glass.action.TAKE_PICTURE";
     private static final String ACTION_PREPARE_CAMERA = "com.google.glass.action.PREPARE_CAMERA";
 
-    private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-    private static final String MY_STRING = "touch";
     private static final String TAG = BluetoothConnection.class.getSimpleName();
 
     private static void sendKey(Context context, String key) {
@@ -57,17 +56,17 @@ public class BluetoothConnection {
                         PowerManager.FULL_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE | PowerManager.ACQUIRE_CAUSES_WAKEUP, "TAG");
                 screenLock.acquire();
                 screenLock.release();
-                if (keyString.startsWith("key")) {
+                if (keyString.startsWith(BluetoothConstants.CONSTANT_KEY)) {
                     String key = keyString.substring(3);
                     sendKey(context, key);
                 } else {
                     try {
                         Intent intent = null;
-                        if ("home".equals(keyString)) {
+                        if (BluetoothConstants.CONSTANT_HOME.equals(keyString)) {
                             intent = new Intent(Intent.ACTION_MAIN);
                             intent.addCategory(Intent.CATEGORY_HOME);
                             intent.setFlags(0x10210000);
-                        } else if ("camera".equals(keyString)) {
+                        } else if (BluetoothConstants.CONSTANT_CAMERA.equals(keyString)) {
                             Intent prepareIntent = new Intent(ACTION_PREPARE_CAMERA);
                             context.sendBroadcast(prepareIntent);
                             intent = new Intent(ACTION_TAKE_PICTURE);

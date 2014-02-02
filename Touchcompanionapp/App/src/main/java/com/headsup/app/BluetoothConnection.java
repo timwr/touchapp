@@ -8,18 +8,16 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.headsup.lib.BluetoothConstants;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Set;
-import java.util.UUID;
 
 /**
  * Created by tim on 12/12/13.
  */
-public class BluetoothConnection {
-
-    private static final UUID MY_UUID = UUID
-            .fromString("00001101-0000-1000-8000-00805F9B34FB");
+public class BluetoothConnection implements BluetoothConstants {
 
     private static BluetoothConnection sInstance = new BluetoothConnection();
     public static BluetoothConnection getInstance() {
@@ -30,7 +28,7 @@ public class BluetoothConnection {
     private OutputStream outputStream;
 
     public void sendKey(Context context, int keyCode) {
-        sendBluetoothString(context, "key" + String.valueOf(keyCode));
+        sendBluetoothString(context, CONSTANT_KEY + String.valueOf(keyCode));
     }
 
     public void sendBluetoothString(Context context, String keyString) {

@@ -34,5 +34,6 @@ android {
 }
 
 dependencies {
+    compile project(':Lib')
     compile 'com.android.support:appcompat-v7:+'
 }
