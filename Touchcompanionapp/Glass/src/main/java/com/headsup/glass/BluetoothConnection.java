@@ -43,33 +43,36 @@ public class BluetoothConnection {
                 break;
             }
             Log.e("OUT", "Received: " + keyString.length() + "=" + keyString);
-            if (keyString != null && keyString.startsWith("key")) {
-                String key = keyString.substring(3);
-                Intent intent = new Intent("key-event");
-                intent.putExtra("message", key);
-                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-            } else if (keyString != null) {
-                try {
-                    PowerManager.WakeLock screenLock = ((PowerManager) context.getSystemService(Context.POWER_SERVICE)).newWakeLock(
-                            PowerManager.FULL_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE | PowerManager.ACQUIRE_CAUSES_WAKEUP, "TAG");
-                    screenLock.acquire();
-                    screenLock.release();
-                    Intent intent = null;
-                    if ("home".equals(keyString)) {
-                        intent = new Intent(Intent.ACTION_MAIN);
-                        intent.addCategory(Intent.CATEGORY_HOME);
-                    } else if ("camera".equals(keyString)) {
-                        intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                    } else {
-                        intent = new Intent(Intent.ACTION_VIEW, Uri.parse(keyString));
-                    }
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.getApplicationContext().startActivity(intent);
 
-                    InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
-                } catch (Exception e) {
-                    e.printStackTrace();
+            if (keyString != null && keyString.length() > 0) {
+                PowerManager.WakeLock screenLock = ((PowerManager) context.getSystemService(Context.POWER_SERVICE)).newWakeLock(
+                        PowerManager.FULL_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE | PowerManager.ACQUIRE_CAUSES_WAKEUP, "TAG");
+                screenLock.acquire();
+                InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+                screenLock.release();
+                if (keyString.startsWith("key")) {
+                    String key = keyString.substring(3);
+                    Intent intent = new Intent("key-event");
+                    intent.putExtra("message", key);
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                } else {
+                    try {
+                        Intent intent = null;
+                        if ("home".equals(keyString)) {
+                            intent = new Intent(Intent.ACTION_MAIN);
+                            intent.addCategory(Intent.CATEGORY_HOME);
+                        } else if ("camera".equals(keyString)) {
+                            intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                        } else {
+                            intent = new Intent(Intent.ACTION_VIEW, Uri.parse(keyString));
+                        }
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.getApplicationContext().startActivity(intent);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
