@@ -3,6 +3,7 @@ package com.headsup.app;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,7 +17,11 @@ import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import java.util.Set;
 
@@ -24,13 +29,19 @@ public class MainActivity extends ActionBarActivity {
 
     private static final String BLUETOOTH_FRAGMENT = "bluetooth";
 
+    private ScrollView mDrawerScroll;
     private LinearLayout mDrawerList;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
+    private TextView textviewMenu;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         setContentView(R.layout.activity_main);
 
         if (savedInstanceState == null) {
@@ -40,6 +51,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerScroll = (ScrollView) findViewById(R.id.scrollview_menu);
         mDrawerList = (LinearLayout) findViewById(R.id.layout_menu);
 
         mDrawerToggle = new ActionBarDrawerToggle(
@@ -56,6 +68,14 @@ public class MainActivity extends ActionBarActivity {
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+//        textviewMenu = (TextView) findViewById(R.id.textview_menu);
+//        textviewMenu.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                mDrawerLayout.openDrawer(mDrawerList);
+//                return true;
+//            }
+//        });
 
         if (savedInstanceState == null && getIntent() != null) {
             handleIntent(getIntent());
@@ -181,10 +201,10 @@ public class MainActivity extends ActionBarActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
             if (keyCode == KeyEvent.KEYCODE_MENU) {
-                if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
-                    mDrawerLayout.closeDrawer(mDrawerList);
+                if (mDrawerLayout.isDrawerOpen(mDrawerScroll)) {
+                    mDrawerLayout.closeDrawer(mDrawerScroll);
                 } else {
-                    mDrawerLayout.openDrawer(mDrawerList);
+                    mDrawerLayout.openDrawer(mDrawerScroll);
                 }
 
             } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
@@ -208,5 +228,14 @@ public class MainActivity extends ActionBarActivity {
 
     public void quitApp(View view) {
         finish();
+    }
+
+    public void launchKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput (InputMethodManager.SHOW_FORCED, 0);
+    }
+
+    public void closeMenu(View view) {
+        mDrawerLayout.closeDrawer(mDrawerScroll);
     }
 }

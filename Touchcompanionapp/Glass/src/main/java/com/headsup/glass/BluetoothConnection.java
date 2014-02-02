@@ -50,23 +50,24 @@ public class BluetoothConnection {
                 LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
             } else if (keyString != null) {
                 try {
-                    PowerManager.WakeLock screenLock = ((PowerManager)context.getSystemService(Context.POWER_SERVICE)).newWakeLock(
+                    PowerManager.WakeLock screenLock = ((PowerManager) context.getSystemService(Context.POWER_SERVICE)).newWakeLock(
                             PowerManager.FULL_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE | PowerManager.ACQUIRE_CAUSES_WAKEUP, "TAG");
                     screenLock.acquire();
-
+                    screenLock.release();
                     Intent intent = null;
                     if ("home".equals(keyString)) {
                         intent = new Intent(Intent.ACTION_MAIN);
                         intent.addCategory(Intent.CATEGORY_HOME);
+                    } else if ("camera".equals(keyString)) {
+                        intent = new Intent("android.media.action.IMAGE_CAPTURE");
                     } else {
                         intent = new Intent(Intent.ACTION_VIEW, Uri.parse(keyString));
                     }
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.getApplicationContext().startActivity(intent);
 
-                    InputMethodManager imm =  (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
-                    screenLock.release();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
