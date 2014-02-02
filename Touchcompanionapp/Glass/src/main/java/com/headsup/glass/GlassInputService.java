@@ -8,6 +8,7 @@ import android.inputmethodservice.InputMethodService;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.inputmethod.InputConnection;
 
 public class GlassInputService extends InputMethodService {
 
@@ -41,10 +42,14 @@ public class GlassInputService extends InputMethodService {
     };
 
     private void keyDownUp(int keyEventCode) {
-        getCurrentInputConnection().sendKeyEvent(
+        InputConnection inputConnection = getCurrentInputConnection();
+        if (inputConnection != null) {
+            inputConnection.sendKeyEvent(
                 new KeyEvent(KeyEvent.ACTION_DOWN, keyEventCode));
-        getCurrentInputConnection().sendKeyEvent(
-                new KeyEvent(KeyEvent.ACTION_UP, keyEventCode));
+            inputConnection.sendKeyEvent(
+                    new KeyEvent(KeyEvent.ACTION_UP, keyEventCode));
+        } else {
+            new Throwable().printStackTrace();
+        }
     }
-
 }

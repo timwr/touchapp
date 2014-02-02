@@ -21,9 +21,18 @@ import java.util.UUID;
  */
 public class BluetoothConnection {
 
+    private static final String ACTION_TAKE_PICTURE = "com.google.glass.action.TAKE_PICTURE";
+    private static final String ACTION_PREPARE_CAMERA = "com.google.glass.action.PREPARE_CAMERA";
+
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     private static final String MY_STRING = "touch";
     private static final String TAG = BluetoothConnection.class.getSimpleName();
+
+    private static void sendKey(Context context, String key) {
+        Intent intent = new Intent("key-event");
+        intent.putExtra("message", key);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+    }
 
     public static void listenBluetooth(Context context) throws IOException {
         final BluetoothAdapter bluetooth = BluetoothAdapter.getDefaultAdapter();
@@ -50,21 +59,24 @@ public class BluetoothConnection {
                 screenLock.release();
                 if (keyString.startsWith("key")) {
                     String key = keyString.substring(3);
-                    Intent intent = new Intent("key-event");
-                    intent.putExtra("message", key);
-                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                    sendKey(context, key);
                 } else {
                     try {
                         Intent intent = null;
                         if ("home".equals(keyString)) {
                             intent = new Intent(Intent.ACTION_MAIN);
                             intent.addCategory(Intent.CATEGORY_HOME);
+                            intent.setFlags(0x10210000);
                         } else if ("camera".equals(keyString)) {
-                            intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                            Intent prepareIntent = new Intent(ACTION_PREPARE_CAMERA);
+                            context.sendBroadcast(prepareIntent);
+                            intent = new Intent(ACTION_TAKE_PICTURE);
+                            intent.setFlags(0x18000000);
+                            intent.putExtra("should_take_picture", true);
                         } else {
                             intent = new Intent(Intent.ACTION_VIEW, Uri.parse(keyString));
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         }
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.getApplicationContext().startActivity(intent);
 
                     } catch (Exception e) {
