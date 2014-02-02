@@ -1,0 +1,8 @@
+
+.idea
+local.properties
+build/
+.gradle/
+cruft/
+signing.keystore
+
