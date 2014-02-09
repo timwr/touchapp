@@ -4,11 +4,6 @@
     android:versionCode="2"
     android:versionName="2.0">
 
-    <uses-sdk
-        android:minSdkVersion="7"
-        android:targetSdkVersion="19" />
-
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -21,6 +16,7 @@
         <activity
             android:name="com.headsup.remote.MainActivity"
             android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait"
             android:label="@string/app_name">
             <intent-filter>

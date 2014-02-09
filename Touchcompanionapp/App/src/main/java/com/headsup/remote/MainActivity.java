@@ -7,13 +7,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.View;
@@ -21,7 +19,6 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.TextView;
 
 import com.headsup.lib.BluetoothConstants;
 
@@ -35,8 +32,6 @@ public class MainActivity extends ActionBarActivity {
     private LinearLayout mDrawerList;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
-    private TextView textviewMenu;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,18 +65,6 @@ public class MainActivity extends ActionBarActivity {
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-//        textviewMenu = (TextView) findViewById(R.id.textview_menu);
-//        textviewMenu.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//                mDrawerLayout.openDrawer(mDrawerList);
-//                return true;
-//            }
-//        });
-
-        if (savedInstanceState == null && getIntent() != null) {
-            handleIntent(getIntent());
-        }
     }
 
     private void checkBluetooth() {
@@ -150,53 +133,11 @@ public class MainActivity extends ActionBarActivity {
         super.onResume();
 
         checkBluetooth();
-
-//        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//        imm.toggleSoftInput (InputMethodManager.SHOW_FORCED, 0);
     }
 
     @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        handleIntent(getIntent());
-    }
-
-    private void handleIntent(Intent intent) {
-        if (intent == null) {
-            return;
-        }
-        new Throwable().printStackTrace();
-        Log.v("", "" + intent);
-        Log.v("", "" + intent.getData());
-        Log.v("", "" + intent.getExtras());
-        Uri uri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
-        String dataString = null;
-        if (uri != null) {
-            dataString = uri.toString();
-        }
-        uri = intent.getData();
-        if (uri != null) {
-            if (dataString == null) {
-                dataString = uri.toString();
-            }
-        }
-        if (dataString == null) {
-            dataString = intent.getDataString();
-        }
-
-        if (dataString == null) {
-            dataString = intent.getStringExtra(Intent.EXTRA_TEXT);
-        }
-//        Log.v("", "" + uri);
-//        if (uri == null) {
-//            new Throwable().printStackTrace();
-//            return;
-//        }
-        Log.e("", "" + dataString);
-        if (dataString != null) {
-            new Throwable().printStackTrace();
-            BluetoothConnection.sendBluetoothString(this, dataString);
-        }
+    protected void onPause() {
+        super.onPause();
     }
 
     @Override
@@ -234,7 +175,7 @@ public class MainActivity extends ActionBarActivity {
 
     public void launchKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput (InputMethodManager.SHOW_FORCED, 0);
+        imm.toggleSoftInput (InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY);
     }
 
     public void closeMenu(View view) {
