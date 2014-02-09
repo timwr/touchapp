@@ -195,7 +195,7 @@ public class MainActivity extends ActionBarActivity {
         Log.e("", "" + dataString);
         if (dataString != null) {
             new Throwable().printStackTrace();
-            BluetoothConnection.getInstance().sendBluetoothString(this, dataString);
+            BluetoothConnection.sendBluetoothString(this, dataString);
         }
     }
 
@@ -209,10 +209,10 @@ public class MainActivity extends ActionBarActivity {
                     mDrawerLayout.openDrawer(mDrawerScroll);
                 }
 
-            } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-                BluetoothConnection.getInstance().sendBluetoothString(this, BluetoothConstants.CONSTANT_HOME);
+            } else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+                BluetoothConnection.sendBluetoothString(this, BluetoothConstants.CONSTANT_HOME);
             } else {
-                BluetoothConnection.getInstance().sendKey(this, keyCode);
+                BluetoothConnection.sendKey(this, keyCode);
             }
             return true;
         }
@@ -220,7 +220,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void launchCamera(View view) {
-        BluetoothConnection.getInstance().sendBluetoothString(this, BluetoothConstants.CONSTANT_CAMERA);
+        BluetoothConnection.sendBluetoothString(this, BluetoothConstants.CONSTANT_CAMERA);
     }
 
     public void launchBluetooth(View view) {

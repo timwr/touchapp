@@ -56,18 +56,17 @@ public class GestureFragment extends Fragment implements GestureDetector.OnGestu
         } else if (downX != 0 && event.getAction() == MotionEvent.ACTION_UP) {
             float deltaX = downX - event.getX();
             float deltaY = downY - event.getY();
-            BluetoothConnection bluetoothConnection = BluetoothConnection.getInstance();
             if (Math.abs(deltaY) < Math.abs(deltaX)) { // horizontal
                 if (deltaX > 0) {
-                    bluetoothConnection.sendKey(getActivity(), KeyEvent.KEYCODE_DPAD_RIGHT);
+                    BluetoothConnection.sendKey(getActivity(), KeyEvent.KEYCODE_DPAD_RIGHT);
                 } else {
-                    bluetoothConnection.sendKey(getActivity(), KeyEvent.KEYCODE_DPAD_LEFT);
+                    BluetoothConnection.sendKey(getActivity(), KeyEvent.KEYCODE_DPAD_LEFT);
                 }
             } else {
                 if (deltaY >= 0) {
-                    bluetoothConnection.sendKey(getActivity(), KeyEvent.KEYCODE_ENTER);
+                    BluetoothConnection.sendKey(getActivity(), KeyEvent.KEYCODE_ENTER);
                 } else {
-                    bluetoothConnection.sendKey(getActivity(), KeyEvent.KEYCODE_BACK);
+                    BluetoothConnection.sendKey(getActivity(), KeyEvent.KEYCODE_BACK);
                 }
             }
         }
@@ -86,8 +85,7 @@ public class GestureFragment extends Fragment implements GestureDetector.OnGestu
 
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
-        BluetoothConnection bluetoothConnection = BluetoothConnection.getInstance();
-        bluetoothConnection.sendKey(getActivity(), KeyEvent.KEYCODE_ENTER);
+        BluetoothConnection.sendKey(getActivity(), KeyEvent.KEYCODE_ENTER);
         return true;
     }
 
