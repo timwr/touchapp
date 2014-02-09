@@ -88,8 +88,8 @@ public class MainActivity extends ActionBarActivity {
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (bluetoothAdapter == null || !bluetoothAdapter.isEnabled()) {
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(this, android.R.style.Theme_Holo_Dialog))
-                    .setMessage("Please turn on bluetooth and pair with your glass")
-                    .setPositiveButton("Bluetooth Settings", new DialogInterface.OnClickListener() {
+                    .setMessage(getString(R.string.turn_on_bluetooth))
+                    .setPositiveButton(getString(R.string.bluetooth_settings), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             launchBluetooth(null);
@@ -102,8 +102,8 @@ public class MainActivity extends ActionBarActivity {
         Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
         if (pairedDevices.size() == 0) {
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(this, android.R.style.Theme_Holo_Dialog))
-                    .setMessage("Please pair with your glass via bluetooth")
-                    .setPositiveButton("Bluetooth Settings", new DialogInterface.OnClickListener() {
+                    .setMessage(getString(R.string.please_pair))
+                    .setPositiveButton(getString(R.string.bluetooth_settings), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             launchBluetooth(null);
@@ -126,7 +126,7 @@ public class MainActivity extends ActionBarActivity {
         String mac = sharedPrefs.getString("bt_mac", null);
         if (mac == null) {
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(this, android.R.style.Theme_Holo_Dialog))
-                    .setTitle("Select your glass from the list below")
+                    .setTitle(getString(R.string.select_your_glass))
                     .setSingleChoiceItems(bluetoothDevices, -1, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -134,7 +134,7 @@ public class MainActivity extends ActionBarActivity {
                             dialog.dismiss();
                         }
                     })
-                    .setPositiveButton("Bluetooth Settings", new DialogInterface.OnClickListener() {
+                    .setPositiveButton(getString(R.string.bluetooth_settings), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             launchBluetooth(null);
