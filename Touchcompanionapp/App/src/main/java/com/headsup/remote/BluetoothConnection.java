@@ -1,4 +1,4 @@
-package com.headsup.app;
+package com.headsup.remote;
 
 import android.content.Context;
 import android.content.Intent;

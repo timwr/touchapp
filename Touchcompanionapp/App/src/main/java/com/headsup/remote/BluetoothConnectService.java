@@ -1,4 +1,4 @@
-package com.headsup.app;
+package com.headsup.remote;
 
 import android.app.IntentService;
 import android.bluetooth.BluetoothAdapter;
