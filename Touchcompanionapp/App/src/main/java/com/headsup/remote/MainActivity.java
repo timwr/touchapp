@@ -179,6 +179,8 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void closeMenu(View view) {
+        Intent intent = new Intent(this, ProActivity.class);
+        startActivity(intent);
         mDrawerLayout.closeDrawer(mDrawerScroll);
     }
 }

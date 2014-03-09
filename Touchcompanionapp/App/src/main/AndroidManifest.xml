@@ -25,6 +25,11 @@
             </intent-filter>
         </activity>
         <activity
+            android:theme="@style/AppTheme"
+            android:name=".ProActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
             android:name="com.headsup.remote.MainActivity"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden"
