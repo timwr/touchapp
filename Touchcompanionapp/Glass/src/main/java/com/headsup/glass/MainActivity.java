@@ -1,6 +1,5 @@
 package com.headsup.glass;
 
-import android.animation.Animator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +27,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+
 
         Intent intent = new Intent(this, BluetoothListenService.class);
         startService(intent);
