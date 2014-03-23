@@ -26,6 +26,12 @@
             android:background="#111">
 
             <TextView
+                android:text="Take a picture"
+                android:onClick="launchCamera"
+                android:drawableLeft="@android:drawable/ic_menu_camera"
+                style="@style/MenuTextItem" />
+
+            <TextView
                 android:id="@+id/textview_bluetooth"
                 android:onClick="launchBluetooth"
                 android:text="Bluetooth Settings"
@@ -41,13 +47,8 @@
             <TextView
                 android:text="Google search"
                 android:onClick="closeMenu"
+                android:textColor="@android:color/darker_gray"
                 android:drawableLeft="@android:drawable/ic_menu_search"
-                style="@style/MenuTextItem" />
-
-            <TextView
-                android:text="Take a picture"
-                android:onClick="launchCamera"
-                android:drawableLeft="@android:drawable/ic_menu_camera"
                 style="@style/MenuTextItem" />
 
             <TextView
