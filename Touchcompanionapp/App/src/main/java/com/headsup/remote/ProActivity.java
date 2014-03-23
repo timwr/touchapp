@@ -1,5 +1,7 @@
 package com.headsup.remote;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MotionEvent;
@@ -32,5 +34,15 @@ public class ProActivity extends ActionBarActivity {
             return true;
         }
         return super.onTouchEvent(event);
+    }
+
+    public void launchPlay(View view) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("market://details?id=com.headsup.remote"));
+        startActivity(intent);
+    }
+
+    public void noThanksClicked(View view) {
+        finish();
     }
 }

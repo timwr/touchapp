@@ -1,22 +1,57 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ProActivity"
-    android:background="@drawable/headsup_app_gopro"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <ImageView
-        android:id="@+id/imageview_clear"
-        android:padding="10dp"
-        android:layout_gravity="right|top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_menu_close_clear_cancel">
-    </ImageView>
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:fillViewport="true"
+    tools:context=".ProActivity">
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageview_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|top"
+            android:padding="10dp"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"></ImageView>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/headsup_icon">
+        </ImageView>
+
+        <ImageView
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="launchPlay"
+            android:src="@drawable/pro_text">
+        </ImageView>
+
+        <ImageView
+            android:layout_gravity="center_horizontal"
+            android:onClick="launchPlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/google_play">
+        </ImageView>
+
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:text="No thanks"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:clickable="true"
+            android:onClick="noThanksClicked"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 
-</FrameLayout>
+</ScrollView>
