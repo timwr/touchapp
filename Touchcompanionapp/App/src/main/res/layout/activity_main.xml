@@ -52,48 +52,56 @@
 
             <TextView
                 android:text="Take a video"
+                android:textColor="@android:color/darker_gray"
                 android:onClick="closeMenu"
                 android:drawableLeft="@android:drawable/ic_menu_crop"
                 style="@style/MenuTextItem" />
 
             <TextView
                 android:text="Get directions"
+                android:textColor="@android:color/darker_gray"
                 android:onClick="closeMenu"
                 android:drawableLeft="@android:drawable/ic_menu_directions"
                 style="@style/MenuTextItem" />
 
             <TextView
                 android:text="Send a message"
+                android:textColor="@android:color/darker_gray"
                 android:onClick="closeMenu"
                 android:drawableLeft="@android:drawable/ic_menu_send"
                 style="@style/MenuTextItem" />
 
             <TextView
                 android:text="Make a call"
+                android:textColor="@android:color/darker_gray"
                 android:onClick="closeMenu"
                 android:drawableLeft="@android:drawable/ic_menu_call"
                 style="@style/MenuTextItem" />
 
             <TextView
                 android:text="Make a video call"
+                android:textColor="@android:color/darker_gray"
                 android:onClick="closeMenu"
                 android:drawableLeft="@android:drawable/ic_menu_view"
                 style="@style/MenuTextItem" />
 
             <TextView
                 android:text="Play a game"
+                android:textColor="@android:color/darker_gray"
                 android:onClick="closeMenu"
                 android:drawableLeft="@android:drawable/ic_menu_more"
                 style="@style/MenuTextItem" />
 
             <TextView
                 android:onClick="closeMenu"
+                android:textColor="@android:color/darker_gray"
                 android:text="Play music"
                 android:drawableLeft="@android:drawable/ic_menu_upload_you_tube"
                 style="@style/MenuTextItem" />
 
             <TextView
                 android:text="Start a run"
+                android:textColor="@android:color/darker_gray"
                 android:onClick="closeMenu"
                 android:drawableLeft="@android:drawable/ic_menu_mapmode"
                 style="@style/MenuTextItem" />
