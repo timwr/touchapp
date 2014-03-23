@@ -7,7 +7,7 @@ import android.view.View;
 
 public class SplashActivity extends ActionBarActivity {
 
-	private static final long SPLASH_SCREEN_DELAY = 1000;
+	private static final long SPLASH_SCREEN_DELAY = 3000;
 	private static boolean sApplicationLoaded = false;
 
     protected void onCreate(Bundle savedInstanceState) {
